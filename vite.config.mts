@@ -1,0 +1,27 @@
+import { fileURLToPath } from "node:url";
+import { defineConfig } from "vite-plus";
+import { house } from "./lint/house.mjs";
+
+export default defineConfig({
+  resolve: {
+    alias: { "@": fileURLToPath(new URL("./src", import.meta.url)) },
+  },
+  test: {
+    environment: "jsdom",
+    setupFiles: ["./vitest.setup.ts"],
+    include: ["src/**/*.test.{ts,tsx}"],
+    restoreMocks: true,
+  },
+  ...house({
+    appShell: true,
+    overrides: [
+      {
+        files: [
+          "src/components/icons/logo.tsx",
+          "src/components/icons/logo-mark.tsx",
+        ],
+        rules: { "jsx-a11y/prefer-tag-over-role": "off" },
+      },
+    ],
+  }),
+});
