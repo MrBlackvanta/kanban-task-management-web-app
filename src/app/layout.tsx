@@ -1,4 +1,5 @@
-import { SITE_NAME, SITE_URL } from "@/data";
+import { PrepaintScript } from "@/components/layout";
+import { SITE_NAME, SITE_URL, THEME_COLORS } from "@/data";
 import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
@@ -45,6 +46,10 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: THEME_COLORS.light },
+    { media: "(prefers-color-scheme: dark)", color: THEME_COLORS.dark },
+  ],
 };
 
 export default function RootLayout({
@@ -53,8 +58,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${plusJakartaSans.variable} antialiased`}>
-      <body>{children}</body>
+    <html
+      lang="en"
+      className={`${plusJakartaSans.variable} antialiased`}
+      suppressHydrationWarning
+    >
+      <body>
+        <PrepaintScript />
+        {children}
+      </body>
     </html>
   );
 }
