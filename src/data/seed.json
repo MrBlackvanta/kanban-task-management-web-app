@@ -1,0 +1,494 @@
+[
+  {
+    "id": "seed-b1",
+    "name": "Platform Launch",
+    "columns": [
+      {
+        "id": "seed-b1-c1",
+        "name": "Todo",
+        "tasks": [
+          {
+            "id": "seed-t1",
+            "title": "Build UI for onboarding flow",
+            "description": "",
+            "subtasks": [
+              {
+                "id": "seed-t1-s1",
+                "title": "Sign up page",
+                "isCompleted": true
+              },
+              {
+                "id": "seed-t1-s2",
+                "title": "Sign in page",
+                "isCompleted": false
+              },
+              {
+                "id": "seed-t1-s3",
+                "title": "Welcome page",
+                "isCompleted": false
+              }
+            ]
+          },
+          {
+            "id": "seed-t2",
+            "title": "Build UI for search",
+            "description": "",
+            "subtasks": [
+              {
+                "id": "seed-t2-s1",
+                "title": "Search page",
+                "isCompleted": false
+              }
+            ]
+          },
+          {
+            "id": "seed-t3",
+            "title": "Build settings UI",
+            "description": "",
+            "subtasks": [
+              {
+                "id": "seed-t3-s1",
+                "title": "Account page",
+                "isCompleted": false
+              },
+              {
+                "id": "seed-t3-s2",
+                "title": "Billing page",
+                "isCompleted": false
+              }
+            ]
+          },
+          {
+            "id": "seed-t4",
+            "title": "QA and test all major user journeys",
+            "description": "Once we feel version one is ready, we need to rigorously test it both internally and externally to identify any major gaps.",
+            "subtasks": [
+              {
+                "id": "seed-t4-s1",
+                "title": "Internal testing",
+                "isCompleted": false
+              },
+              {
+                "id": "seed-t4-s2",
+                "title": "External testing",
+                "isCompleted": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "seed-b1-c2",
+        "name": "Doing",
+        "tasks": [
+          {
+            "id": "seed-t5",
+            "title": "Design settings and search pages",
+            "description": "",
+            "subtasks": [
+              {
+                "id": "seed-t5-s1",
+                "title": "Settings - Account page",
+                "isCompleted": true
+              },
+              {
+                "id": "seed-t5-s2",
+                "title": "Settings - Billing page",
+                "isCompleted": true
+              },
+              {
+                "id": "seed-t5-s3",
+                "title": "Search page",
+                "isCompleted": false
+              }
+            ]
+          },
+          {
+            "id": "seed-t6",
+            "title": "Add account management endpoints",
+            "description": "",
+            "subtasks": [
+              {
+                "id": "seed-t6-s1",
+                "title": "Upgrade plan",
+                "isCompleted": true
+              },
+              {
+                "id": "seed-t6-s2",
+                "title": "Cancel plan",
+                "isCompleted": true
+              },
+              {
+                "id": "seed-t6-s3",
+                "title": "Update payment method",
+                "isCompleted": false
+              }
+            ]
+          },
+          {
+            "id": "seed-t7",
+            "title": "Design onboarding flow",
+            "description": "",
+            "subtasks": [
+              {
+                "id": "seed-t7-s1",
+                "title": "Sign up page",
+                "isCompleted": true
+              },
+              {
+                "id": "seed-t7-s2",
+                "title": "Sign in page",
+                "isCompleted": false
+              },
+              {
+                "id": "seed-t7-s3",
+                "title": "Welcome page",
+                "isCompleted": false
+              }
+            ]
+          },
+          {
+            "id": "seed-t8",
+            "title": "Add search endpoints",
+            "description": "",
+            "subtasks": [
+              {
+                "id": "seed-t8-s1",
+                "title": "Add search endpoint",
+                "isCompleted": true
+              },
+              {
+                "id": "seed-t8-s2",
+                "title": "Define search filters",
+                "isCompleted": false
+              }
+            ]
+          },
+          {
+            "id": "seed-t9",
+            "title": "Add authentication endpoints",
+            "description": "",
+            "subtasks": [
+              {
+                "id": "seed-t9-s1",
+                "title": "Define user model",
+                "isCompleted": true
+              },
+              {
+                "id": "seed-t9-s2",
+                "title": "Add auth endpoints",
+                "isCompleted": false
+              }
+            ]
+          },
+          {
+            "id": "seed-t10",
+            "title": "Research pricing points of various competitors and trial different business models",
+            "description": "We know what we're planning to build for version one. Now we need to finalise the first pricing model we'll use. Keep iterating the subtasks until we have a coherent proposition.",
+            "subtasks": [
+              {
+                "id": "seed-t10-s1",
+                "title": "Research competitor pricing and business models",
+                "isCompleted": true
+              },
+              {
+                "id": "seed-t10-s2",
+                "title": "Outline a business model that works for our solution",
+                "isCompleted": false
+              },
+              {
+                "id": "seed-t10-s3",
+                "title": "Talk to potential customers about our proposed solution and ask for fair price expectancy",
+                "isCompleted": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "seed-b1-c3",
+        "name": "Done",
+        "tasks": [
+          {
+            "id": "seed-t11",
+            "title": "Conduct 5 wireframe tests",
+            "description": "Ensure the layout continues to make sense and we have strong buy-in from potential users.",
+            "subtasks": [
+              {
+                "id": "seed-t11-s1",
+                "title": "Complete 5 wireframe prototype tests",
+                "isCompleted": true
+              }
+            ]
+          },
+          {
+            "id": "seed-t12",
+            "title": "Create wireframe prototype",
+            "description": "Create a greyscale clickable wireframe prototype to test our assumptions so far.",
+            "subtasks": [
+              {
+                "id": "seed-t12-s1",
+                "title": "Create clickable wireframe prototype in Balsamiq",
+                "isCompleted": true
+              }
+            ]
+          },
+          {
+            "id": "seed-t13",
+            "title": "Review results of usability tests and iterate",
+            "description": "Keep iterating through the subtasks until we're clear on the core concepts for the app.",
+            "subtasks": [
+              {
+                "id": "seed-t13-s1",
+                "title": "Meet to review notes from previous tests and plan changes",
+                "isCompleted": true
+              },
+              {
+                "id": "seed-t13-s2",
+                "title": "Make changes to paper prototypes",
+                "isCompleted": true
+              },
+              {
+                "id": "seed-t13-s3",
+                "title": "Conduct 5 usability tests",
+                "isCompleted": true
+              }
+            ]
+          },
+          {
+            "id": "seed-t14",
+            "title": "Create paper prototypes and conduct 10 usability tests with potential customers",
+            "description": "",
+            "subtasks": [
+              {
+                "id": "seed-t14-s1",
+                "title": "Create paper prototypes for version one",
+                "isCompleted": true
+              },
+              {
+                "id": "seed-t14-s2",
+                "title": "Complete 10 usability tests",
+                "isCompleted": true
+              }
+            ]
+          },
+          {
+            "id": "seed-t15",
+            "title": "Market discovery",
+            "description": "We need to define and refine our core product. Interviews will help us learn common pain points and help us define the strongest MVP.",
+            "subtasks": [
+              {
+                "id": "seed-t15-s1",
+                "title": "Interview 10 prospective customers",
+                "isCompleted": true
+              }
+            ]
+          },
+          {
+            "id": "seed-t16",
+            "title": "Competitor analysis",
+            "description": "",
+            "subtasks": [
+              {
+                "id": "seed-t16-s1",
+                "title": "Find direct and indirect competitors",
+                "isCompleted": true
+              },
+              {
+                "id": "seed-t16-s2",
+                "title": "SWOT analysis for each competitor",
+                "isCompleted": true
+              }
+            ]
+          },
+          {
+            "id": "seed-t17",
+            "title": "Research the market",
+            "description": "We need to get a solid overview of the market to ensure we have up-to-date estimates of market size and demand.",
+            "subtasks": [
+              {
+                "id": "seed-t17-s1",
+                "title": "Write up research analysis",
+                "isCompleted": true
+              },
+              {
+                "id": "seed-t17-s2",
+                "title": "Calculate TAM",
+                "isCompleted": true
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "seed-b2",
+    "name": "Marketing Plan",
+    "columns": [
+      {
+        "id": "seed-b2-c1",
+        "name": "Todo",
+        "tasks": [
+          {
+            "id": "seed-t18",
+            "title": "Plan Product Hunt launch",
+            "description": "",
+            "subtasks": [
+              {
+                "id": "seed-t18-s1",
+                "title": "Find hunter",
+                "isCompleted": false
+              },
+              {
+                "id": "seed-t18-s2",
+                "title": "Gather assets",
+                "isCompleted": false
+              },
+              {
+                "id": "seed-t18-s3",
+                "title": "Draft product page",
+                "isCompleted": false
+              },
+              {
+                "id": "seed-t18-s4",
+                "title": "Notify customers",
+                "isCompleted": false
+              },
+              {
+                "id": "seed-t18-s5",
+                "title": "Notify network",
+                "isCompleted": false
+              },
+              {
+                "id": "seed-t18-s6",
+                "title": "Launch!",
+                "isCompleted": false
+              }
+            ]
+          },
+          {
+            "id": "seed-t19",
+            "title": "Share on Show HN",
+            "description": "",
+            "subtasks": [
+              {
+                "id": "seed-t19-s1",
+                "title": "Draft out HN post",
+                "isCompleted": false
+              },
+              {
+                "id": "seed-t19-s2",
+                "title": "Get feedback and refine",
+                "isCompleted": false
+              },
+              {
+                "id": "seed-t19-s3",
+                "title": "Publish post",
+                "isCompleted": false
+              }
+            ]
+          },
+          {
+            "id": "seed-t20",
+            "title": "Write launch article to publish on multiple channels",
+            "description": "",
+            "subtasks": [
+              {
+                "id": "seed-t20-s1",
+                "title": "Write article",
+                "isCompleted": false
+              },
+              {
+                "id": "seed-t20-s2",
+                "title": "Publish on LinkedIn",
+                "isCompleted": false
+              },
+              {
+                "id": "seed-t20-s3",
+                "title": "Publish on Indie Hackers",
+                "isCompleted": false
+              },
+              {
+                "id": "seed-t20-s4",
+                "title": "Publish on Medium",
+                "isCompleted": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "seed-b2-c2",
+        "name": "Doing",
+        "tasks": []
+      },
+      {
+        "id": "seed-b2-c3",
+        "name": "Done",
+        "tasks": []
+      }
+    ]
+  },
+  {
+    "id": "seed-b3",
+    "name": "Roadmap",
+    "columns": [
+      {
+        "id": "seed-b3-c1",
+        "name": "Now",
+        "tasks": [
+          {
+            "id": "seed-t21",
+            "title": "Launch version one",
+            "description": "",
+            "subtasks": [
+              {
+                "id": "seed-t21-s1",
+                "title": "Launch privately to our waitlist",
+                "isCompleted": false
+              },
+              {
+                "id": "seed-t21-s2",
+                "title": "Launch publicly on PH, HN, etc.",
+                "isCompleted": false
+              }
+            ]
+          },
+          {
+            "id": "seed-t22",
+            "title": "Review early feedback and plan next steps for roadmap",
+            "description": "Beyond the initial launch, we're keeping the initial roadmap completely empty. This meeting will help us plan out our next steps based on actual customer feedback.",
+            "subtasks": [
+              {
+                "id": "seed-t22-s1",
+                "title": "Interview 10 customers",
+                "isCompleted": false
+              },
+              {
+                "id": "seed-t22-s2",
+                "title": "Review common customer pain points and suggestions",
+                "isCompleted": false
+              },
+              {
+                "id": "seed-t22-s3",
+                "title": "Outline next steps for our roadmap",
+                "isCompleted": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "seed-b3-c2",
+        "name": "Next",
+        "tasks": []
+      },
+      {
+        "id": "seed-b3-c3",
+        "name": "Later",
+        "tasks": []
+      }
+    ]
+  }
+]
