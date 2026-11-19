@@ -1,0 +1,38 @@
+import { seedBoards } from "@/data";
+import { dispatch, selectBoard } from "@/store";
+import { act, render, screen } from "@testing-library/react";
+import { afterEach, describe, expect, it } from "vite-plus/test";
+import AddTaskButton from "./add-task-button";
+
+const EMPTY_BOARD = "empty-board";
+
+const addTask = () => screen.getByRole("button", { name: "Add New Task" });
+
+describe("AddTaskButton", () => {
+  afterEach(() => {
+    dispatch({ type: "deleteBoard", boardId: EMPTY_BOARD });
+    selectBoard(seedBoards[0].id);
+  });
+
+  it("is ready on a board with columns", () => {
+    render(<AddTaskButton />);
+
+    expect(addTask()).toBeEnabled();
+  });
+
+  it("is disabled while the board has no column to add to", () => {
+    render(<AddTaskButton />);
+
+    act(() => {
+      dispatch({
+        type: "createBoard",
+        board: { id: EMPTY_BOARD, name: "Empty", columns: [] },
+      });
+      selectBoard(EMPTY_BOARD);
+    });
+    expect(addTask()).toBeDisabled();
+
+    act(() => selectBoard(seedBoards[1].id));
+    expect(addTask()).toBeEnabled();
+  });
+});

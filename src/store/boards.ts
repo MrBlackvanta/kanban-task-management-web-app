@@ -1,5 +1,5 @@
 import { seedBoards } from "@/data";
-import type { Board } from "@/lib";
+import { applyCommand, type Board, type Command } from "@/lib";
 import { useSyncExternalStore } from "react";
 
 type BoardState = { boards: Board[]; activeBoardId: string | undefined };
@@ -30,6 +30,10 @@ function useBoardState() {
     () => state,
     () => initialState,
   );
+}
+
+export function dispatch(command: Command) {
+  setState({ ...state, boards: applyCommand(state.boards, command) });
 }
 
 export function selectBoard(boardId: string) {

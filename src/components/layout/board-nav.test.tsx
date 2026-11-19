@@ -30,7 +30,7 @@ describe("BoardNav", () => {
         .map((item) => item.textContent),
     ).toEqual(boardNames);
     expect(
-      within(nav).getByRole("button", { name: "+ Create New Board" }),
+      within(nav).getByRole("button", { name: "Create New Board" }),
     ).toBeInTheDocument();
   });
 

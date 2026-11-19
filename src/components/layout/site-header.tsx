@@ -1,9 +1,5 @@
-import {
-  Logo,
-  LogoMark,
-  PlusIcon,
-  VerticalEllipsisIcon,
-} from "@/components/icons";
+import { Logo, LogoMark, VerticalEllipsisIcon } from "@/components/icons";
+import AddTaskButton from "./add-task-button";
 import BoardTitle from "./board-title";
 
 export default function SiteHeader() {
@@ -15,15 +11,7 @@ export default function SiteHeader() {
       </div>
       <div className="flex min-w-0 flex-1 items-center gap-4 pr-4 md:gap-6 md:px-6 lg:pr-8 lg:sidebar-hidden:pl-8">
         <BoardTitle />
-        <button
-          type="button"
-          className="flex h-8 w-12 shrink-0 items-center justify-center rounded-full bg-purple text-heading-m text-white transition-[background-color] hover:bg-purple-hover md:h-12 md:w-auto md:px-6"
-        >
-          <PlusIcon className="md:hidden" />
-          <span className="sr-only md:not-sr-only">
-            <span aria-hidden="true">+ </span>Add New Task
-          </span>
-        </button>
+        <AddTaskButton />
         <button
           type="button"
           aria-label="Board options"

@@ -34,7 +34,7 @@ export default function BoardNav({ onSelect }: { onSelect?: () => void }) {
         })}
       </ul>
       <NavPill icon={<BoardIcon />} tone="accent">
-        + Create New Board
+        <span aria-hidden="true">+ </span>Create New Board
       </NavPill>
     </nav>
   );
