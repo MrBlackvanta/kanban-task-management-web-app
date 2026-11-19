@@ -78,6 +78,40 @@
   --color-column-to: var(--column-to);
 }
 
+@utility v-select {
+  appearance: none;
+
+  @supports (appearance: base-select) {
+    &,
+    &::picker(select) {
+      appearance: base-select;
+    }
+
+    &::picker-icon {
+      display: none;
+    }
+
+    &::picker(select) {
+      position-try-order: normal;
+      min-block-size: fit-content;
+      margin-block: 0.625rem;
+      border: 0;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      background-color: var(--color-menu);
+      box-shadow: var(--shadow-menu);
+    }
+
+    & option {
+      padding: 0;
+    }
+
+    & option::checkmark {
+      display: none;
+    }
+  }
+}
+
 @layer base {
   :root {
     color-scheme: light;
@@ -108,7 +142,7 @@
     --label: #ffffff;
     --accent-ink: #8888f4;
     --danger-ink: #f76160;
-    --done: rgb(255 255 255 / 0.52);
+    --done: rgb(255 255 255 / 0.55);
     --column-from: rgb(43 44 55 / 0.25);
     --column-to: rgb(43 44 55 / 0.125);
   }

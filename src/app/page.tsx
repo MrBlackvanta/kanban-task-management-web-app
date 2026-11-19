@@ -1,10 +1,11 @@
 import { AppShell } from "@/components/layout";
-import { ActiveBoard } from "@/views/home";
+import { ActiveBoard, BoardDialogs } from "@/views/home";
 
 export default function Home() {
   return (
     <AppShell>
       <ActiveBoard />
+      <BoardDialogs />
     </AppShell>
   );
 }
