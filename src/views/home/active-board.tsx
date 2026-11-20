@@ -1,13 +1,16 @@
 "use client";
 
-import { useActiveBoard } from "@/store";
+import { openDialog, useActiveBoard } from "@/store";
 import BoardColumn from "./board-column";
 import EmptyBoard from "./empty-board";
+import NoBoards from "./no-boards";
+
+export const NEW_COLUMN_ID = "new-column";
 
 export default function ActiveBoard() {
   const board = useActiveBoard();
 
-  if (!board) return null;
+  if (!board) return <NoBoards />;
   if (board.columns.length === 0) return <EmptyBoard />;
 
   return (
@@ -16,7 +19,9 @@ export default function ActiveBoard() {
         <BoardColumn key={column.id} column={column} index={index} />
       ))}
       <button
+        id={NEW_COLUMN_ID}
         type="button"
+        onClick={() => openDialog({ kind: "editBoard", addColumn: true })}
         className="mt-9.75 w-70 shrink-0 rounded-md bg-linear-to-b/srgb from-column-from to-column-to text-heading-xl text-muted transition-[color] hover:text-accent-ink"
       >
         <span aria-hidden="true">+ </span>New Column

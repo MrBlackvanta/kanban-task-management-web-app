@@ -1,8 +1,14 @@
-import AddTaskButton from "@/components/layout/add-task-button";
+import { AppShell } from "@/components/layout";
 import { seedBoards } from "@/data";
-import { closeDialog, dispatch, selectBoard } from "@/store";
+import { closeDialog, dispatch, selectBoard, useBoards } from "@/store";
 import { ActiveBoard, BoardDialogs } from "@/views/home";
-import { act, render, screen, within } from "@testing-library/react";
+import {
+  act,
+  render,
+  renderHook,
+  screen,
+  within,
+} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 export const TEST_BOARD = "test-board";
@@ -35,24 +41,34 @@ export function createTestBoard() {
   selectBoard(TEST_BOARD);
 }
 
-export function removeTestBoard() {
+export function resetBoards() {
+  const seedIds = new Set(seedBoards.map((board) => board.id));
+  const { result, unmount } = renderHook(useBoards);
   act(() => {
     closeDialog();
-    dispatch({ type: "deleteBoard", boardId: TEST_BOARD });
+    for (const board of result.current) {
+      if (!seedIds.has(board.id)) {
+        dispatch({ type: "deleteBoard", boardId: board.id });
+      }
+    }
     selectBoard(seedBoards[0].id);
   });
+  unmount();
 }
 
 export function renderBoard() {
   const user = userEvent.setup();
   render(
-    <>
-      <AddTaskButton />
+    <AppShell>
       <ActiveBoard />
       <BoardDialogs />
-    </>,
+    </AppShell>,
   );
   return user;
+}
+
+export function sidebar() {
+  return screen.getByRole("complementary", { name: "Sidebar" });
 }
 
 export function cardTitles(columnName: string) {

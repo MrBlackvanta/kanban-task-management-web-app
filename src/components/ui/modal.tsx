@@ -1,10 +1,9 @@
-import { useEffect, useRef, type ReactNode, type RefObject } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 
 type ModalProps = {
   titleId: string;
   descriptionId?: string;
   role?: "alertdialog";
-  initialFocusRef?: RefObject<HTMLElement | null>;
   onClose: () => void;
   className: string;
   children: ReactNode;
@@ -14,7 +13,6 @@ export default function Modal({
   titleId,
   descriptionId,
   role,
-  initialFocusRef,
   onClose,
   className,
   children,
@@ -22,9 +20,10 @@ export default function Modal({
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
-    dialogRef.current?.showModal();
-    initialFocusRef?.current?.focus();
-  }, [initialFocusRef]);
+    const dialog = dialogRef.current;
+    dialog?.showModal();
+    dialog?.querySelector<HTMLElement>("[data-autofocus]")?.focus();
+  }, []);
 
   return (
     <dialog

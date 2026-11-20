@@ -1,5 +1,6 @@
-import { Logo, LogoMark, VerticalEllipsisIcon } from "@/components/icons";
+import { Logo, LogoMark } from "@/components/icons";
 import AddTaskButton from "./add-task-button";
+import BoardOptions from "./board-options";
 import BoardTitle from "./board-title";
 
 export default function SiteHeader() {
@@ -12,13 +13,7 @@ export default function SiteHeader() {
       <div className="flex min-w-0 flex-1 items-center gap-4 pr-4 md:gap-6 md:px-6 lg:pr-8 lg:sidebar-hidden:pl-8">
         <BoardTitle />
         <AddTaskButton />
-        <button
-          type="button"
-          aria-label="Board options"
-          className="relative shrink-0 text-grey after:absolute after:-inset-x-2.5 after:-inset-y-3"
-        >
-          <VerticalEllipsisIcon className="h-4 w-auto md:h-5" />
-        </button>
+        <BoardOptions />
       </div>
     </header>
   );

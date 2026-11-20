@@ -4,8 +4,8 @@ import {
   cardButton,
   cardTitles,
   createTestBoard,
-  removeTestBoard,
   renderBoard,
+  resetBoards,
   TEST_BOARD,
 } from "@/test/board";
 import { act, screen, within } from "@testing-library/react";
@@ -38,7 +38,7 @@ function subtaskValues(dialog: HTMLElement) {
 
 describe("TaskFormDialog", () => {
   beforeEach(createTestBoard);
-  afterEach(removeTestBoard);
+  afterEach(resetBoards);
 
   describe("adding", () => {
     it("opens empty on the title, with two subtask rows and the first column", async () => {
@@ -136,6 +136,29 @@ describe("TaskFormDialog", () => {
       expect(field(dialog, "Description")).toBeValid();
       expect(field(dialog, "Title")).toHaveFocus();
       expect(cardTitles("Todo")).toHaveLength(3);
+    });
+
+    it("shows example text in the title and the first two subtask rows", async () => {
+      const user = renderBoard();
+      const dialog = await openAddTask(user);
+
+      await user.click(
+        within(dialog).getByRole("button", { name: "Add New Subtask" }),
+      );
+
+      expect(field(dialog, "Title")).toHaveAttribute(
+        "placeholder",
+        "e.g. Take coffee break",
+      );
+      expect(field(dialog, "Subtask 1")).toHaveAttribute(
+        "placeholder",
+        "e.g. Make coffee",
+      );
+      expect(field(dialog, "Subtask 2")).toHaveAttribute(
+        "placeholder",
+        "e.g. Drink coffee & smile",
+      );
+      expect(field(dialog, "Subtask 3")).not.toHaveAttribute("placeholder");
     });
 
     it("submits in place, without a native form submission", async () => {

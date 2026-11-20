@@ -1,12 +1,24 @@
 "use client";
 
 import { BoardIcon } from "@/components/icons";
-import { selectBoard, useActiveBoard, useBoards } from "@/store";
+import { LIMITS } from "@/lib";
+import { openDialog, selectBoard, useActiveBoard, useBoards } from "@/store";
 import NavPill from "./nav-pill";
 
-export default function BoardNav({ onSelect }: { onSelect?: () => void }) {
+export const CREATE_BOARD_ID = "create-board";
+
+type BoardNavProps = { createButtonId?: string; onSelect?: () => void };
+
+export default function BoardNav({ createButtonId, onSelect }: BoardNavProps) {
   const boards = useBoards();
   const activeBoard = useActiveBoard();
+  const atLimit = boards.length >= LIMITS.boards;
+
+  function createBoard() {
+    if (atLimit) return;
+    onSelect?.();
+    openDialog({ kind: "addBoard", returnFocusId: createButtonId });
+  }
 
   return (
     <nav aria-label="Boards" className="min-h-0 flex-1 overflow-y-auto">
@@ -33,7 +45,13 @@ export default function BoardNav({ onSelect }: { onSelect?: () => void }) {
           );
         })}
       </ul>
-      <NavPill icon={<BoardIcon />} tone="accent">
+      <NavPill
+        id={createButtonId}
+        icon={<BoardIcon />}
+        tone="accent"
+        aria-disabled={atLimit || undefined}
+        onClick={createBoard}
+      >
         <span aria-hidden="true">+ </span>Create New Board
       </NavPill>
     </nav>

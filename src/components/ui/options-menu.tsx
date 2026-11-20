@@ -8,14 +8,18 @@ export type MenuAction = {
 };
 
 type OptionsMenuProps = {
+  id?: string;
   label: string;
+  disabled?: boolean;
   actions: MenuAction[];
   iconClassName: string;
   menuClassName: string;
 };
 
 export default function OptionsMenu({
+  id,
   label,
+  disabled,
   actions,
   iconClassName,
   menuClassName,
@@ -25,10 +29,12 @@ export default function OptionsMenu({
   return (
     <>
       <button
+        id={id}
         type="button"
         aria-label={label}
+        disabled={disabled}
         popoverTarget={menuId}
-        className="relative shrink-0 text-grey after:absolute after:-inset-x-2.5 after:-inset-y-3"
+        className="relative shrink-0 text-grey after:absolute after:-inset-x-2.5 after:-inset-y-3 disabled:opacity-25"
       >
         <VerticalEllipsisIcon className={iconClassName} />
       </button>

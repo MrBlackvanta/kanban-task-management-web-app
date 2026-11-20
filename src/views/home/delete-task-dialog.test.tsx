@@ -2,8 +2,8 @@ import {
   cardButton,
   cardTitles,
   createTestBoard,
-  removeTestBoard,
   renderBoard,
+  resetBoards,
 } from "@/test/board";
 import { screen, within } from "@testing-library/react";
 import type { UserEvent } from "@testing-library/user-event";
@@ -18,7 +18,7 @@ async function openDeleteTask(user: UserEvent, title: string) {
 
 describe("DeleteTaskDialog", () => {
   beforeEach(createTestBoard);
-  afterEach(removeTestBoard);
+  afterEach(resetBoards);
 
   it("asks for confirmation naming the task, focused on Cancel", async () => {
     const user = renderBoard();

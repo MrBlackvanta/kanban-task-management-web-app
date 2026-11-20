@@ -6,7 +6,7 @@ const tones: Record<Tone, string> = {
   idle: "text-muted hover:bg-purple/10 hover:text-purple dark:hover:bg-white",
   current: "bg-purple text-white focus-visible:outline-white",
   accent:
-    "text-accent-ink hover:bg-purple/10 hover:text-purple dark:hover:bg-white",
+    "text-accent-ink not-aria-disabled:hover:bg-purple/10 not-aria-disabled:hover:text-purple aria-disabled:cursor-not-allowed aria-disabled:opacity-25 dark:not-aria-disabled:hover:bg-white",
 };
 
 type NavPillProps = ComponentProps<"button"> & {

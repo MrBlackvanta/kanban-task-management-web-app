@@ -5,13 +5,12 @@ import {
   type Board,
   type Task,
   type TaskDraft,
-  type TaskErrors,
 } from "@/lib";
 import { dispatch } from "@/store";
 import { useId, useState, type SubmitEvent } from "react";
-import { flushSync } from "react-dom";
 import ColumnSelect from "./column-select";
-import SubtaskFields, { type SubtaskValue } from "./subtask-fields";
+import ListFields, { newRow, type ListRow } from "./list-fields";
+import { useFormErrors } from "./use-form-errors";
 
 type TaskFormDialogProps = {
   board: Board;
@@ -23,12 +22,14 @@ type TaskFormDialogProps = {
 type TaskFormValues = {
   title: string;
   description: string;
-  subtasks: SubtaskValue[];
+  subtasks: ListRow[];
   columnId: string;
 };
 
 const DESCRIPTION_PLACEHOLDER =
   "e.g. It’s always good to take a break. This 15 minute break will recharge the batteries a little.";
+
+const SUBTASK_PLACEHOLDERS = ["e.g. Make coffee", "e.g. Drink coffee & smile"];
 
 export default function TaskFormDialog({
   board,
@@ -40,8 +41,7 @@ export default function TaskFormDialog({
   const titleId = useId();
   const descriptionId = useId();
   const [values, setValues] = useState(() => initialValues(columnId, task));
-  const [showErrors, setShowErrors] = useState(false);
-  const errors = showErrors ? validate(values) : null;
+  const { errors, check } = useFormErrors(values, validate);
   const editing = task !== undefined;
 
   function update(changes: Partial<TaskFormValues>) {
@@ -50,13 +50,7 @@ export default function TaskFormDialog({
 
   function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
-    const form = event.currentTarget;
-    const found = validate(values);
-    if (found) {
-      flushSync(() => setShowErrors(true));
-      firstInvalidField(form, found)?.focus();
-      return;
-    }
+    if (!check(event.currentTarget)) return;
 
     const draft = toDraft(values, task?.id ?? crypto.randomUUID());
     dispatch(
@@ -79,7 +73,6 @@ export default function TaskFormDialog({
           </label>
           <TextInput
             id={titleId}
-            name="title"
             value={values.title}
             onChange={(event) => update({ title: event.target.value })}
             placeholder="e.g. Take coffee break"
@@ -104,9 +97,14 @@ export default function TaskFormDialog({
             className={`mt-2 block field-sizing-content max-h-60 min-h-28 resize-none py-2 ${FIELD_CLASS_NAME}`}
           />
         </div>
-        <SubtaskFields
-          subtasks={values.subtasks}
+        <ListFields
+          legend="Subtasks"
+          rowLabel="Subtask"
+          rows={values.subtasks}
           errors={errors?.subtasks}
+          limit={LIMITS.subtasksPerTask}
+          maxLength={LIMITS.titleLength}
+          placeholders={SUBTASK_PLACEHOLDERS}
           onChange={(subtasks) => update({ subtasks })}
         />
         <ColumnSelect
@@ -128,33 +126,23 @@ function initialValues(columnId: string, task?: Task): TaskFormValues {
     return {
       title: "",
       description: "",
-      subtasks: [emptySubtask(), emptySubtask()],
+      subtasks: [newRow(), newRow()],
       columnId,
     };
   }
   return {
     title: task.title,
     description: task.description,
-    subtasks: task.subtasks.map(({ id, title }) => ({ id, title })),
+    subtasks: task.subtasks.map(({ id, title }) => ({ id, value: title })),
     columnId,
   };
-}
-
-function emptySubtask(): SubtaskValue {
-  return { id: crypto.randomUUID(), title: "" };
 }
 
 function validate(values: TaskFormValues) {
   return validateTask({
     title: values.title,
-    subtasks: values.subtasks.map((subtask) => subtask.title),
+    subtasks: values.subtasks.map((subtask) => subtask.value),
   });
-}
-
-function firstInvalidField(form: HTMLFormElement, errors: TaskErrors) {
-  if (errors.title) return form.querySelector<HTMLElement>("[name=title]");
-  const index = errors.subtasks.findIndex(Boolean);
-  return form.querySelectorAll<HTMLElement>("li input").item(index);
 }
 
 function toDraft(values: TaskFormValues, id: string): TaskDraft {
@@ -164,7 +152,7 @@ function toDraft(values: TaskFormValues, id: string): TaskDraft {
     description: values.description.trim(),
     subtasks: values.subtasks.map((subtask) => ({
       id: subtask.id,
-      title: subtask.title.trim(),
+      title: subtask.value.trim(),
     })),
   };
 }

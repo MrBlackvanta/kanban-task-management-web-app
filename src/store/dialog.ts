@@ -1,8 +1,10 @@
 import { createStore, useStore } from "./create-store";
 
 export type DialogRequest =
-  | { kind: "addTask" }
-  | { kind: "viewTask" | "editTask" | "deleteTask"; taskId: string };
+  | { kind: "addTask" | "deleteBoard" }
+  | { kind: "viewTask" | "editTask" | "deleteTask"; taskId: string }
+  | { kind: "addBoard"; returnFocusId?: string }
+  | { kind: "editBoard"; returnFocusId?: string; addColumn: boolean };
 
 const store = createStore<DialogRequest | undefined>(undefined);
 
