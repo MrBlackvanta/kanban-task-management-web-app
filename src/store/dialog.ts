@@ -1,6 +1,8 @@
 import { createStore, useStore } from "./create-store";
 
-export type DialogRequest = { kind: "viewTask"; taskId: string };
+export type DialogRequest =
+  | { kind: "addTask" }
+  | { kind: "viewTask" | "editTask" | "deleteTask"; taskId: string };
 
 const store = createStore<DialogRequest | undefined>(undefined);
 

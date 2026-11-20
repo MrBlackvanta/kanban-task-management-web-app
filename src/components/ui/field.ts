@@ -1,0 +1,2 @@
+export const FIELD_CLASS_NAME =
+  "w-full rounded-sm border border-grey/25 bg-transparent px-4 text-body-l text-ink transition-[border-color,background-color,box-shadow] placeholder:text-hint hover:border-purple focus-visible:border-accent-ink focus-visible:bg-purple/5 focus-visible:inset-ring focus-visible:inset-ring-accent-ink focus-visible:outline-transparent aria-invalid:border-danger-ink aria-invalid:bg-transparent aria-invalid:inset-ring-danger-ink";

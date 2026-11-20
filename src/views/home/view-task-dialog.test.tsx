@@ -112,6 +112,28 @@ describe("ViewTaskDialog", () => {
     expect(within(dialog).getAllByRole("button")).toHaveLength(1);
   });
 
+  it("offers Edit Task and Delete Task from its options, closing them first on Escape", async () => {
+    const user = renderBoard();
+    const dialog = await openTask(user, "Plan the launch");
+    const options = within(dialog).getByRole("button", {
+      name: "Task options",
+    });
+
+    await user.click(options);
+    expect(
+      within(dialog)
+        .getAllByRole("button")
+        .map((button) => button.textContent),
+    ).toEqual(["", "Edit Task", "Delete Task"]);
+
+    await user.keyboard("{Escape}");
+    expect(
+      within(dialog).queryByRole("button", { name: "Edit Task" }),
+    ).not.toBeInTheDocument();
+    expect(dialog).toBeInTheDocument();
+    expect(options).toHaveFocus();
+  });
+
   it("shows the description as written", async () => {
     const user = renderBoard();
 

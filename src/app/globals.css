@@ -74,6 +74,9 @@
   --color-accent-ink: var(--accent-ink);
   --color-danger-ink: var(--danger-ink);
   --color-done: var(--done);
+  --color-hint: var(--hint);
+  --color-secondary: var(--secondary);
+  --color-secondary-hover: var(--secondary-hover);
   --color-column-from: var(--column-from);
   --color-column-to: var(--column-to);
 }
@@ -112,6 +115,12 @@
   }
 }
 
+@utility v-popover-menu {
+  inset: auto;
+  margin: 0;
+  position-try-fallbacks: flip-block;
+}
+
 @layer base {
   :root {
     color-scheme: light;
@@ -126,6 +135,9 @@
     --accent-ink: #635fc7;
     --danger-ink: #d54044;
     --done: rgb(0 1 18 / 0.58);
+    --hint: rgb(0 1 18 / 0.55);
+    --secondary: rgb(99 95 199 / 0.1);
+    --secondary-hover: rgb(99 95 199 / 0.25);
     --column-from: #e9effa;
     --column-to: rgb(233 239 250 / 0.5);
   }
@@ -143,6 +155,9 @@
     --accent-ink: #8888f4;
     --danger-ink: #f76160;
     --done: rgb(255 255 255 / 0.55);
+    --hint: rgb(255 255 255 / 0.5);
+    --secondary: #ffffff;
+    --secondary-hover: #d8d7f1;
     --column-from: rgb(43 44 55 / 0.25);
     --column-to: rgb(43 44 55 / 0.125);
   }
