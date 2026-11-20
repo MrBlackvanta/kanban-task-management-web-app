@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import LiveRegion from "./live-region";
 import SaveNotice from "./save-notice";
 import Sidebar from "./sidebar";
 import { ShowSidebarButton } from "./sidebar-toggle";
@@ -16,6 +17,7 @@ export default function AppShell({ children }: { children?: ReactNode }) {
       </div>
       <ShowSidebarButton />
       <SaveNotice />
+      <LiveRegion />
     </div>
   );
 }

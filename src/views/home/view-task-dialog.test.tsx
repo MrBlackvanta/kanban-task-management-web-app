@@ -2,7 +2,14 @@ import { seedBoards } from "@/data";
 import { closeDialog, dispatch, openDialog, selectBoard } from "@/store";
 import { act, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { afterEach, beforeEach, describe, expect, it } from "vite-plus/test";
+import {
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from "vite-plus/test";
 import ActiveBoard from "./active-board";
 import BoardDialogs from "./board-dialogs";
 
@@ -112,7 +119,7 @@ describe("ViewTaskDialog", () => {
     expect(within(dialog).getAllByRole("button")).toHaveLength(1);
   });
 
-  it("offers Edit Task and Delete Task from its options, closing them first on Escape", async () => {
+  it("offers Edit Task, the moves and Delete Task from its options, closing them first on Escape", async () => {
     const user = renderBoard();
     const dialog = await openTask(user, "Plan the launch");
     const options = within(dialog).getByRole("button", {
@@ -124,7 +131,7 @@ describe("ViewTaskDialog", () => {
       within(dialog)
         .getAllByRole("button")
         .map((button) => button.textContent),
-    ).toEqual(["", "Edit Task", "Delete Task"]);
+    ).toEqual(["", "Edit Task", "Move Down", "Delete Task"]);
 
     await user.keyboard("{Escape}");
     expect(
@@ -153,7 +160,7 @@ describe("ViewTaskDialog", () => {
 
     const dialog = await openTask(user, "Bare task");
 
-    expect(dialog.querySelector("p")).toBeNull();
+    expect(dialog.querySelector("p:not([aria-live])")).toBeNull();
     expect(within(dialog).queryByRole("group")).not.toBeInTheDocument();
     expect(
       within(dialog).getByRole("combobox", { name: "Current Status" }),
@@ -247,6 +254,56 @@ describe("ViewTaskDialog", () => {
       within(dialog).getByRole("combobox", { name: "Current Status" }),
     ).toHaveDisplayValue("Doing");
   });
+
+  it.each([
+    ["Plan the launch", ["Move Down"]],
+    ["Bare task", ["Move Up"]],
+    ["Busy task", []],
+  ])("offers %s only the moves its column allows", async (title, moves) => {
+    const user = renderBoard();
+    const dialog = await openTask(user, title);
+
+    await user.click(
+      within(dialog).getByRole("button", { name: "Task options" }),
+    );
+
+    expect(
+      within(dialog)
+        .queryAllByRole("button", { name: /^Move/ })
+        .map((button) => button.textContent),
+    ).toEqual(moves);
+  });
+
+  it.each([
+    ["Move Down", "plan", "Plan the launch", 1],
+    ["Move Up", "bare", "Bare task", 0],
+  ])(
+    "uses %s to reorder the column, saves it and says where the task went",
+    async (move, taskId, title, index) => {
+      const user = renderBoard();
+      const dialog = await openTask(user, title);
+      const options = within(dialog).getByRole("button", {
+        name: "Task options",
+      });
+
+      await user.click(options);
+      await user.click(within(dialog).getByRole("button", { name: move }));
+
+      expect(cardTitles("Todo (2)")).toEqual(["Bare task", "Plan the launch"]);
+      expect(vi.mocked(fetch).mock.lastCall).toEqual([
+        `/api/tasks/${taskId}/position`,
+        expect.objectContaining({
+          method: "PATCH",
+          body: JSON.stringify({ columnId: "todo", index }),
+        }),
+      ]);
+      expect(dialog).toBeInTheDocument();
+      expect(options).toHaveFocus();
+      expect(within(dialog).getByText(/^Moved to/)).toHaveTextContent(
+        `Moved to Todo, position ${index + 1} of 2.`,
+      );
+    },
+  );
 
   it("closes on Escape and hands focus back to the card", async () => {
     const user = renderBoard();

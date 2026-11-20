@@ -1,19 +1,39 @@
-import { Modal, OptionsMenu } from "@/components/ui";
-import type { TaskLocation } from "@/lib";
-import { openDialog } from "@/store";
+import { LiveRegion } from "@/components/layout";
+import { Modal, OptionsMenu, type MenuAction } from "@/components/ui";
+import { describePlace, type TaskLocation } from "@/lib";
+import { announce, dispatch, openDialog } from "@/store";
 import { useId } from "react";
+import { taskCardId } from "./card-focus";
 import { closeDialogAndFocus } from "./dialog-focus";
 import StatusSelect from "./status-select";
 import SubtaskList from "./subtask-list";
-import { taskCardId } from "./task-card";
 
 export default function ViewTaskDialog({
   location,
 }: {
   location: TaskLocation;
 }) {
-  const { board, column, task } = location;
+  const { board, column, task, index } = location;
   const titleId = useId();
+
+  function moveTo(target: number) {
+    dispatch({
+      type: "moveTask",
+      taskId: task.id,
+      columnId: column.id,
+      index: target,
+    });
+    announce(`Moved to ${describePlace({ ...location, index: target })}.`);
+  }
+
+  const moves: MenuAction[] = [
+    ...(index > 0
+      ? [{ label: "Move Up", onSelect: () => moveTo(index - 1) }]
+      : []),
+    ...(index < column.tasks.length - 1
+      ? [{ label: "Move Down", onSelect: () => moveTo(index + 1) }]
+      : []),
+  ];
 
   return (
     <Modal
@@ -37,6 +57,7 @@ export default function ViewTaskDialog({
               label: "Edit Task",
               onSelect: () => openDialog({ kind: "editTask", taskId: task.id }),
             },
+            ...moves,
             {
               label: "Delete Task",
               destructive: true,
@@ -53,6 +74,7 @@ export default function ViewTaskDialog({
       )}
       {task.subtasks.length > 0 && <SubtaskList task={task} />}
       <StatusSelect board={board} column={column} taskId={task.id} />
+      <LiveRegion />
     </Modal>
   );
 }

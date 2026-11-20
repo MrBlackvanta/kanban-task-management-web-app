@@ -1,9 +1,9 @@
 import { ADD_TASK_BUTTON_ID } from "@/components/layout";
 import type { TaskLocation } from "@/lib";
 import { dispatch, openDialog } from "@/store";
+import { taskCardId } from "./card-focus";
 import DeleteDialog from "./delete-dialog";
 import { closeDialogAndFocus } from "./dialog-focus";
-import { taskCardId } from "./task-card";
 
 export default function DeleteTaskDialog({
   location,

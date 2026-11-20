@@ -55,6 +55,10 @@ export function startSync() {
   enqueue(loadBoards);
 }
 
+export function getBoards() {
+  return store.getState().boards;
+}
+
 export function useBoards() {
   return useStore(store).boards;
 }
