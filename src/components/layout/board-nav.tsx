@@ -3,6 +3,7 @@
 import { BoardIcon } from "@/components/icons";
 import { LIMITS } from "@/lib";
 import { openDialog, selectBoard, useActiveBoard, useBoards } from "@/store";
+import { useId } from "react";
 import NavPill from "./nav-pill";
 
 export const CREATE_BOARD_ID = "create-board";
@@ -13,6 +14,7 @@ export default function BoardNav({ createButtonId, onSelect }: BoardNavProps) {
   const boards = useBoards();
   const activeBoard = useActiveBoard();
   const atLimit = boards.length >= LIMITS.boards;
+  const labelId = useId();
 
   function createBoard() {
     if (atLimit) return;
@@ -22,12 +24,15 @@ export default function BoardNav({ createButtonId, onSelect }: BoardNavProps) {
 
   return (
     <nav
-      aria-label="Boards"
+      aria-labelledby={labelId}
       className="min-h-0 flex-1 overflow-y-auto syncing:invisible"
     >
-      <h2 className="px-6 text-heading-s text-muted uppercase lg:px-8">
+      <p
+        id={labelId}
+        className="px-6 text-heading-s text-muted uppercase lg:px-8"
+      >
         All boards ({boards.length})
-      </h2>
+      </p>
       <ul className="mt-4.75">
         {boards.map((board) => {
           const isCurrent = board.id === activeBoard?.id;

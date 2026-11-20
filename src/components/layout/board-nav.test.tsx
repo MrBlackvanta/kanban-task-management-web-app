@@ -17,13 +17,11 @@ function currentBoards(nav = screen.getByRole("navigation")) {
 describe("BoardNav", () => {
   afterEach(() => selectBoard(seedBoards[0].id));
 
-  it("lists every board under a counted heading", () => {
+  it("lists every board under the board count, which names the list", () => {
     render(<BoardNav />);
-    const nav = screen.getByRole("navigation", { name: "Boards" });
+    const nav = screen.getByRole("navigation", { name: "All boards (3)" });
 
-    expect(
-      within(nav).getByRole("heading", { level: 2, name: "All boards (3)" }),
-    ).toBeInTheDocument();
+    expect(within(nav).queryByRole("heading")).not.toBeInTheDocument();
     expect(
       within(nav)
         .getAllByRole("listitem")
@@ -58,6 +56,9 @@ describe("BoardNav", () => {
       </>,
     );
     const [first, second] = screen.getAllByRole("navigation");
+    expect(first.getAttribute("aria-labelledby")).not.toBe(
+      second.getAttribute("aria-labelledby"),
+    );
 
     await userEvent.click(
       within(first).getByRole("button", { name: "Marketing Plan" }),
