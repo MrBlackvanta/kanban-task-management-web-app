@@ -6,6 +6,7 @@
 
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 @custom-variant sidebar-hidden (&:where([data-sidebar="hidden"] *));
+@custom-variant syncing (&:where([data-sync="pending"] *));
 
 @theme {
   --color-*: initial;

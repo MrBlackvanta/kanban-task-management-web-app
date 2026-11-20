@@ -21,7 +21,10 @@ export default function BoardNav({ createButtonId, onSelect }: BoardNavProps) {
   }
 
   return (
-    <nav aria-label="Boards" className="min-h-0 flex-1 overflow-y-auto">
+    <nav
+      aria-label="Boards"
+      className="min-h-0 flex-1 overflow-y-auto syncing:invisible"
+    >
       <h2 className="px-6 text-heading-s text-muted uppercase lg:px-8">
         All boards ({boards.length})
       </h2>

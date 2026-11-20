@@ -16,7 +16,7 @@ export default function BoardTitle() {
 
   return (
     <>
-      <h1 className="min-w-0 flex-1 text-heading-l md:text-heading-tablet lg:text-heading-xl">
+      <h1 className="min-w-0 flex-1 text-heading-l md:text-heading-tablet lg:text-heading-xl syncing:invisible">
         <button
           ref={triggerRef}
           id={BOARD_MENU_TRIGGER_ID}

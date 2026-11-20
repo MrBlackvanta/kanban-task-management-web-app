@@ -9,8 +9,9 @@ export default defineConfig({
   test: {
     environment: "jsdom",
     setupFiles: ["./vitest.setup.ts"],
-    include: ["src/**/*.test.{ts,tsx}"],
+    include: ["src/**/*.test.{ts,tsx}", "worker/**/*.test.ts"],
     restoreMocks: true,
+    testTimeout: 10_000,
   },
   ...house({
     appShell: true,
@@ -21,6 +22,10 @@ export default defineConfig({
           "src/components/icons/logo-mark.tsx",
         ],
         rules: { "jsx-a11y/prefer-tag-over-role": "off" },
+      },
+      {
+        files: ["worker/index.ts"],
+        rules: { "eslint/no-console": "off" },
       },
     ],
   }),

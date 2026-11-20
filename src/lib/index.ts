@@ -1,3 +1,4 @@
+export * from "./api";
 export * from "./boards";
 export * from "./commands";
 export * from "./prepaint";

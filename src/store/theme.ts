@@ -6,19 +6,12 @@ import {
   type Theme,
 } from "@/data";
 import { useSyncExternalStore } from "react";
+import { readStorage, writeStorage } from "./storage";
 
 const listeners = new Set<() => void>();
 
 function currentTheme(): Theme {
   return document.documentElement.dataset.theme === "dark" ? "dark" : "light";
-}
-
-function storedTheme() {
-  try {
-    return localStorage.getItem(THEME_KEY);
-  } catch {
-    return null;
-  }
 }
 
 function applyTheme(theme: Theme) {
@@ -29,7 +22,8 @@ function applyTheme(theme: Theme) {
 }
 
 function followSystem(event: MediaQueryListEvent) {
-  if (storedTheme() === null) applyTheme(event.matches ? "dark" : "light");
+  if (readStorage(THEME_KEY) === null)
+    applyTheme(event.matches ? "dark" : "light");
 }
 
 function subscribe(listener: () => void) {
@@ -44,9 +38,7 @@ function subscribe(listener: () => void) {
 
 export function chooseTheme(theme: Theme) {
   applyTheme(theme);
-  try {
-    localStorage.setItem(THEME_KEY, theme);
-  } catch {}
+  writeStorage(THEME_KEY, theme);
 }
 
 export function useTheme() {

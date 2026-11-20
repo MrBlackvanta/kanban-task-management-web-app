@@ -22,6 +22,12 @@ export function locateTask(
   return undefined;
 }
 
+export function countTasks(boards: Board[]) {
+  return boards
+    .flatMap((board) => board.columns)
+    .reduce((total, column) => total + column.tasks.length, 0);
+}
+
 export function completedCount(task: Task) {
   return task.subtasks.filter((subtask) => subtask.isCompleted).length;
 }

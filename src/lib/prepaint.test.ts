@@ -1,4 +1,12 @@
-import { DARK_QUERY, SIDEBAR_KEY, THEME_KEY, THEME_META_ID } from "@/data";
+import {
+  BOARD_KEY,
+  DARK_QUERY,
+  SIDEBAR_KEY,
+  SYNC_GATE_TIMEOUT_MS,
+  THEME_KEY,
+  THEME_META_ID,
+  WORKSPACE_KEY,
+} from "@/data";
 import { installMatchMedia } from "@/test/media";
 import { runInThisContext } from "node:vm";
 import { afterEach, describe, expect, it, vi } from "vite-plus/test";
@@ -11,6 +19,7 @@ function runPrepaint() {
   return {
     theme: root.dataset.theme,
     sidebar: root.dataset.sidebar,
+    sync: root.dataset.sync,
     themeColor: document.querySelector<HTMLMetaElement>(
       'meta[name="theme-color"]',
     ),
@@ -22,7 +31,9 @@ describe("PREPAINT_SCRIPT", () => {
     localStorage.clear();
     delete root.dataset.theme;
     delete root.dataset.sidebar;
+    delete root.dataset.sync;
     document.head.replaceChildren();
+    vi.useRealTimers();
   });
 
   it.each([
@@ -63,12 +74,38 @@ describe("PREPAINT_SCRIPT", () => {
     expect(runPrepaint().sidebar).toBe(sidebar);
   });
 
+  it.each([
+    ["a saved workspace", WORKSPACE_KEY, "pending"],
+    ["a chosen board", BOARD_KEY, "pending"],
+    ["nothing saved", undefined, undefined],
+  ])("hides the boards until they sync for %s", (_, key, sync) => {
+    if (key) localStorage.setItem(key, "true");
+
+    expect(runPrepaint().sync).toBe(sync);
+  });
+
+  it("shows the boards anyway if they never sync", () => {
+    vi.useFakeTimers();
+    localStorage.setItem(WORKSPACE_KEY, "true");
+    runPrepaint();
+
+    vi.advanceTimersByTime(SYNC_GATE_TIMEOUT_MS - 1);
+    expect(root).toHaveAttribute("data-sync", "pending");
+    vi.advanceTimersByTime(1);
+    expect(root).not.toHaveAttribute("data-sync");
+    expect(SYNC_GATE_TIMEOUT_MS).toBe(3000);
+  });
+
   it("falls back to the system theme when storage is blocked", () => {
     vi.spyOn(Storage.prototype, "getItem").mockImplementation(() => {
       throw new DOMException("Blocked", "SecurityError");
     });
     installMatchMedia([DARK_QUERY]);
 
-    expect(runPrepaint()).toMatchObject({ theme: "dark", sidebar: undefined });
+    expect(runPrepaint()).toMatchObject({
+      theme: "dark",
+      sidebar: undefined,
+      sync: undefined,
+    });
   });
 });

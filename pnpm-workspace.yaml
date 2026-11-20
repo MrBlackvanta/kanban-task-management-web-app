@@ -10,5 +10,8 @@ peerDependencyRules:
     - vite
   allowedVersions:
     vite: "*"
+onlyBuiltDependencies:
+  - esbuild
+  - workerd
 ignoredBuiltDependencies:
   - sharp
