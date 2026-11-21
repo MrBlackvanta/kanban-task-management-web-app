@@ -16,7 +16,7 @@ export default function BoardTitle() {
 
   return (
     <>
-      <h1 className="min-w-0 flex-1 text-heading-l md:text-heading-tablet lg:text-heading-xl syncing:invisible">
+      <h1 className="min-w-0 flex-1 text-heading-l md:text-heading-tablet lg:text-heading-xl syncing:invisible motion-sidebar:[view-transition-name:board-title]">
         <button
           ref={triggerRef}
           id={BOARD_MENU_TRIGGER_ID}
@@ -31,7 +31,7 @@ export default function BoardTitle() {
           className="group/title flex max-w-full items-center gap-2 md:hidden"
         >
           <span className="truncate">{title}</span>
-          <ChevronDownIcon className="shrink-0 text-purple group-aria-expanded/title:rotate-180" />
+          <ChevronDownIcon className="shrink-0 text-purple group-aria-expanded/title:rotate-180 motion-safe:transition-[rotate] motion-safe:duration-(--motion-quick) motion-safe:ease-enter" />
         </button>
         <span className="hidden truncate md:block">{title}</span>
       </h1>

@@ -6,7 +6,7 @@ import {
   type Task,
   type TaskDraft,
 } from "@/lib";
-import { dispatch } from "@/store";
+import { changeDialog, dispatch } from "@/store";
 import { useId, useState, type SubmitEvent } from "react";
 import ColumnSelect from "./column-select";
 import ListFields, { newRow, type ListRow } from "./list-fields";
@@ -53,12 +53,14 @@ export default function TaskFormDialog({
     if (!check(event.currentTarget)) return;
 
     const draft = toDraft(values, task?.id ?? crypto.randomUUID());
-    dispatch(
-      editing
-        ? { type: "updateTask", columnId: values.columnId, task: draft }
-        : { type: "createTask", columnId: values.columnId, task: draft },
-    );
-    onFinish();
+    changeDialog(() => {
+      dispatch(
+        editing
+          ? { type: "updateTask", columnId: values.columnId, task: draft }
+          : { type: "createTask", columnId: values.columnId, task: draft },
+      );
+      onFinish();
+    });
   }
 
   return (

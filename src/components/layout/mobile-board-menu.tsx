@@ -35,9 +35,9 @@ export default function MobileBoardMenu({
       id={BOARD_MENU_ID}
       aria-label="Boards"
       onClose={onClose}
-      className="inset-0 m-0 size-full max-h-none max-w-none overflow-clip bg-transparent text-ink backdrop:bg-transparent"
+      className="inset-0 m-0 size-full max-h-none max-w-none overflow-clip bg-transparent text-ink v-drop-menu backdrop:bg-transparent"
     >
-      <div className="relative mx-auto mt-20 flex max-h-[calc(100%-6rem)] w-66 flex-col rounded-lg bg-surface pt-4 pb-8 shadow-menu">
+      <div className="relative mx-auto mt-20 flex max-h-[calc(100%-6rem)] w-66 v-drop-panel flex-col rounded-lg bg-surface pt-4 pb-8 shadow-menu">
         <BoardNav onSelect={close} />
         <ThemeSwitch className="mx-4 mt-4" />
         <Signature />
@@ -49,7 +49,7 @@ export default function MobileBoardMenu({
         onClick={close}
         className="absolute inset-0 -z-10 cursor-default"
       >
-        <span className="absolute inset-x-0 top-16 bottom-0 bg-scrim" />
+        <span className="absolute inset-x-0 top-16 bottom-0 bg-scrim v-drop-scrim" />
       </button>
     </dialog>
   );

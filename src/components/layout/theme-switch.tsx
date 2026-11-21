@@ -21,7 +21,7 @@ export default function ThemeSwitch({ className }: { className: string }) {
         className="peer/switch sr-only"
       />
       <span className="flex h-5 w-10 rounded-full bg-purple p-0.75 transition-[background-color] group-hover/theme:bg-purple-hover peer-focus-visible/switch:outline-2 peer-focus-visible/switch:outline-offset-2 peer-focus-visible/switch:outline-accent-ink">
-        <span className="size-3.5 rounded-full bg-white dark:translate-x-5" />
+        <span className="size-3.5 rounded-full bg-white motion-safe:transition-[translate] motion-safe:duration-(--motion-quick) motion-safe:ease-enter dark:translate-x-5" />
       </span>
       <DarkThemeIcon />
     </label>

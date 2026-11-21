@@ -11,7 +11,7 @@ export default function AppShell({ children }: { children?: ReactNode }) {
       <Sidebar />
       <div className="flex min-w-0 flex-1 flex-col">
         <SiteHeader />
-        <main className="min-h-0 flex-1 overflow-auto syncing:invisible">
+        <main className="min-h-0 flex-1 overflow-auto syncing:invisible motion-sidebar:[view-transition-name:board]">
           {children}
         </main>
       </div>

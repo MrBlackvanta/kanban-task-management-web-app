@@ -1,4 +1,4 @@
-import { useEffect, useRef, type ReactNode } from "react";
+import { useLayoutEffect, useRef, type ReactNode } from "react";
 
 type ModalProps = {
   titleId: string;
@@ -19,7 +19,7 @@ export default function Modal({
 }: ModalProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const dialog = dialogRef.current;
     dialog?.showModal();
     dialog?.querySelector<HTMLElement>("[data-autofocus]")?.focus();
@@ -31,11 +31,15 @@ export default function Modal({
       role={role}
       aria-labelledby={titleId}
       aria-describedby={descriptionId}
+      onCancel={(event) => {
+        event.preventDefault();
+        onClose();
+      }}
       onClose={onClose}
       className="m-0 size-full max-h-none max-w-none items-center justify-center overflow-clip bg-transparent p-4 text-ink backdrop:bg-scrim open:flex"
     >
       <div
-        className={`flex max-h-full w-full max-w-120 flex-col gap-6 overflow-y-auto overscroll-contain rounded-md bg-surface ${className}`}
+        className={`flex max-h-full w-full max-w-120 flex-col gap-6 overflow-y-auto overscroll-contain rounded-md bg-surface motion-dialog:[view-transition-name:sheet] ${className}`}
       >
         {children}
       </div>
@@ -43,7 +47,7 @@ export default function Modal({
         type="button"
         tabIndex={-1}
         aria-hidden="true"
-        onClick={() => dialogRef.current?.close()}
+        onClick={onClose}
         className="absolute inset-0 -z-10 cursor-default"
       />
     </dialog>

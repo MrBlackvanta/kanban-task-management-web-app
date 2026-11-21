@@ -1,8 +1,9 @@
-import { dropIndex, edgeScroll, nearestSpan } from "@/lib";
+import { dropIndex, edgeScroll, nearestSpan, poseOf } from "@/lib";
 import { cancelDrag, dropDrag, moveDrag, startDrag } from "@/store";
 import type { RefObject } from "react";
 import { flushSync } from "react-dom";
 import { focusTaskCard } from "./card-focus";
+import { settleTaskCard } from "./card-motion";
 
 export const MOUSE_DRAG_DISTANCE = 4;
 export const TOUCH_HOLD_MS = 250;
@@ -114,8 +115,10 @@ export function followPointer({ down, board, card, ghost }: PointerDrag) {
   }
 
   function finish(change: () => void) {
+    const from = ghost.current ? poseOf(ghost.current) : undefined;
     flushSync(change);
     focusTaskCard(taskId);
+    settleTaskCard(taskId, from);
   }
 
   function stop() {

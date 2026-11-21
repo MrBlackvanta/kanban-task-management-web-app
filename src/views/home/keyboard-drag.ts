@@ -3,6 +3,7 @@ import { cancelDrag, dropDrag, getDrag, startDrag, stepDrag } from "@/store";
 import type { KeyboardEvent } from "react";
 import { flushSync } from "react-dom";
 import { focusTaskCard } from "./card-focus";
+import { settleTaskCard, taskCardPose } from "./card-motion";
 
 const DIRECTIONS = new Map<string, Direction>([
   ["ArrowUp", "up"],
@@ -22,8 +23,10 @@ export function onCardKeyDown(event: KeyboardEvent, taskId: string) {
   const change = session.mode === "keyboard" && keyChange(event);
   if (!change) return;
   if (event.key !== "Tab") event.preventDefault();
+  const from = taskCardPose(session.taskId);
   flushSync(change);
   focusTaskCard(session.taskId);
+  settleTaskCard(session.taskId, from);
 }
 
 export function onCardKeyUp(event: KeyboardEvent) {

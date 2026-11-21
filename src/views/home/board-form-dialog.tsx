@@ -1,6 +1,6 @@
 import { Button, Modal, TextInput } from "@/components/ui";
 import { LIMITS, validateBoard, type Board, type BoardDraft } from "@/lib";
-import { dispatch, selectBoard } from "@/store";
+import { changeDialog, dispatch, selectBoard } from "@/store";
 import { useId, useState, type SubmitEvent } from "react";
 import ListFields, { newRow, type ListRow } from "./list-fields";
 import { useFormErrors } from "./use-form-errors";
@@ -37,13 +37,15 @@ export default function BoardFormDialog({
     if (!check(event.currentTarget)) return;
 
     const draft = toDraft(values, board?.id ?? crypto.randomUUID());
-    if (board) {
-      dispatch({ type: "updateBoard", board: draft });
-    } else {
-      dispatch({ type: "createBoard", board: draft });
-      selectBoard(draft.id);
-    }
-    onFinish();
+    changeDialog(() => {
+      if (board) {
+        dispatch({ type: "updateBoard", board: draft });
+      } else {
+        dispatch({ type: "createBoard", board: draft });
+        selectBoard(draft.id);
+      }
+      onFinish();
+    });
   }
 
   return (

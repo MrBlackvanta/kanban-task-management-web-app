@@ -1,3 +1,4 @@
+import { REDUCED_MOTION_QUERY } from "@/lib";
 import { cancelDrag } from "@/store";
 import {
   cardButton,
@@ -12,6 +13,8 @@ import {
   columnCenter,
   layOutBoard,
 } from "@/test/board-layout";
+import { installMatchMedia } from "@/test/media";
+import { animate } from "@/test/motion";
 import { act, fireEvent, screen, waitFor } from "@testing-library/react";
 import {
   afterEach,
@@ -155,6 +158,35 @@ describe("dragging with a mouse", () => {
     expect(announcement()).toBe(`Dropped ${PLAN} in Doing, position 2 of 2.`);
     expect(cardButton(PLAN)).toHaveFocus();
     expect(ghost()).not.toBeInTheDocument();
+  });
+
+  it("settles the dropped card from where its copy was let go", () => {
+    renderBoard();
+    press();
+    moveTo(columnCenter(1) + 130, cardCenter(1));
+    ghost()!.getBoundingClientRect = () =>
+      DOMRect.fromRect({ x: 500, y: 300, width: 280, height: 80 });
+
+    release();
+
+    expect(animate).toHaveBeenCalledOnce();
+    expect(animate.mock.contexts[0]).toBe(cardButton(PLAN).closest("article"));
+    expect(animate.mock.calls[0][0]).toEqual([
+      expect.objectContaining({
+        translate: `${640 - columnCenter(1)}px ${340 - cardCenter(1)}px`,
+      }),
+      expect.objectContaining({ translate: "0px 0px" }),
+    ]);
+  });
+
+  it("drops the card in place without motion when motion is reduced", () => {
+    installMatchMedia([REDUCED_MOTION_QUERY]);
+    renderBoard();
+
+    drag(columnCenter(1) + 130, cardCenter(1));
+
+    expect(cardTitles("Doing")).toEqual(["Busy task", PLAN]);
+    expect(animate).not.toHaveBeenCalled();
   });
 
   it("reorders the card within its column", () => {
@@ -519,6 +551,24 @@ describe("dragging with the keyboard", () => {
     ]);
     expect(announcement()).toBe(`Dropped ${PLAN} in Doing, position 1 of 2.`);
     expect(cardButton(PLAN)).toHaveFocus();
+  });
+
+  it("glides the card to each new place it is moved to", async () => {
+    layOutBoard();
+    const user = renderBoard();
+    focusPlan();
+    await user.keyboard(" ");
+
+    await user.keyboard("{ArrowDown}");
+
+    expect(animate).toHaveBeenCalledOnce();
+    expect(animate.mock.contexts[0]).toBe(cardButton(PLAN).closest("article"));
+    expect(animate.mock.calls[0][0]).toEqual([
+      expect.objectContaining({
+        translate: `0px ${cardCenter(0) - cardCenter(1)}px`,
+      }),
+      expect.objectContaining({ translate: "0px 0px" }),
+    ]);
   });
 
   it("drops the card on Enter without opening it", async () => {

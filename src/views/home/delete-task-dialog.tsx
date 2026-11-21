@@ -1,6 +1,6 @@
 import { ADD_TASK_BUTTON_ID } from "@/components/layout";
 import type { TaskLocation } from "@/lib";
-import { dispatch, openDialog } from "@/store";
+import { changeDialog, dispatch, openDialog } from "@/store";
 import { taskCardId } from "./card-focus";
 import DeleteDialog from "./delete-dialog";
 import { closeDialogAndFocus } from "./dialog-focus";
@@ -14,10 +14,12 @@ export default function DeleteTaskDialog({
 
   function deleteTask() {
     const neighbour = column.tasks[index + 1] ?? column.tasks[index - 1];
-    dispatch({ type: "deleteTask", taskId: task.id });
-    closeDialogAndFocus(
-      neighbour ? taskCardId(neighbour.id) : ADD_TASK_BUTTON_ID,
-    );
+    changeDialog(() => {
+      dispatch({ type: "deleteTask", taskId: task.id });
+      closeDialogAndFocus(
+        neighbour ? taskCardId(neighbour.id) : ADD_TASK_BUTTON_ID,
+      );
+    });
   }
 
   return (

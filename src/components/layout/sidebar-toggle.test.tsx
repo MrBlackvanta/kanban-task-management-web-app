@@ -1,4 +1,5 @@
 import { SIDEBAR_KEY } from "@/data";
+import { fakeViewTransitions } from "@/test/motion";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vite-plus/test";
@@ -45,6 +46,22 @@ describe("sidebar toggles", () => {
     expect(root.dataset.sidebar).toBeUndefined();
     expect(localStorage.getItem(SIDEBAR_KEY)).toBeNull();
     expect(hide).toHaveFocus();
+  });
+
+  it("slides the sidebar away inside a view transition", async () => {
+    const views = fakeViewTransitions();
+    const { hide, show } = renderToggles();
+
+    await userEvent.click(hide);
+    expect(root.dataset.motion).toBe("sidebar-hide");
+    expect(root.dataset.sidebar).toBeUndefined();
+
+    views.runUpdates();
+    expect(root.dataset.sidebar).toBe("hidden");
+    expect(show).toHaveFocus();
+
+    await views.finishAll();
+    expect(root.dataset.motion).toBeUndefined();
   });
 
   it("still toggles when storage is blocked", async () => {

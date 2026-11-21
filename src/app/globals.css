@@ -7,6 +7,8 @@
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 @custom-variant sidebar-hidden (&:where([data-sidebar="hidden"] *));
 @custom-variant syncing (&:where([data-sync="pending"] *));
+@custom-variant motion-dialog (&:where([data-motion="dialog"] *));
+@custom-variant motion-sidebar (&:where([data-motion^="sidebar"] *));
 
 @theme {
   --color-*: initial;
@@ -59,6 +61,8 @@
   --shadow-menu: 0 10px 20px rgb(54 78 126 / 0.25);
 
   --default-transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  --ease-enter: cubic-bezier(0.2, 0, 0, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
 }
 
 @theme inline {
@@ -124,11 +128,93 @@
   inset: auto;
   margin: 0;
   position-try-fallbacks: flip-block;
+
+  @media (prefers-reduced-motion: no-preference) {
+    transform-origin: top;
+    transition:
+      display var(--motion-quick) allow-discrete,
+      overlay var(--motion-quick) allow-discrete,
+      opacity var(--motion-quick),
+      scale var(--motion-quick);
+    transition-timing-function: var(--ease-exit);
+
+    &:popover-open {
+      transition-timing-function: var(--ease-enter);
+    }
+
+    &:not(:popover-open) {
+      opacity: 0;
+      scale: 0.95;
+    }
+
+    @starting-style {
+      &:popover-open {
+        opacity: 0;
+        scale: 0.95;
+      }
+    }
+
+    :root[data-motion] & {
+      transition: none;
+    }
+  }
+}
+
+@utility v-drop-menu {
+  @media (prefers-reduced-motion: no-preference) {
+    transition:
+      display var(--motion-quick) allow-discrete,
+      overlay var(--motion-quick) allow-discrete;
+
+    :root[data-motion] &:not([open]) {
+      transition: none;
+    }
+  }
+}
+
+@utility v-drop-panel {
+  @media (prefers-reduced-motion: no-preference) {
+    transform-origin: top;
+    transition-property: opacity, scale, translate;
+    transition-duration: var(--motion-quick);
+    transition-timing-function: var(--ease-enter);
+
+    @starting-style {
+      opacity: 0;
+      scale: 0.95;
+      translate: 0 -0.5rem;
+    }
+
+    :where(dialog:not([open])) & {
+      opacity: 0;
+      scale: 0.95;
+      translate: 0 -0.5rem;
+      transition-timing-function: var(--ease-exit);
+    }
+  }
+}
+
+@utility v-drop-scrim {
+  @media (prefers-reduced-motion: no-preference) {
+    transition: opacity var(--motion-quick);
+
+    @starting-style {
+      opacity: 0;
+    }
+
+    :where(dialog:not([open])) & {
+      opacity: 0;
+    }
+  }
 }
 
 @layer base {
   :root {
     color-scheme: light;
+
+    --motion-quick: 150ms;
+    --motion-scrim: 200ms;
+    --motion-sheet: 250ms;
 
     --inset: #f4f7fd;
     --surface: #ffffff;
@@ -177,5 +263,92 @@
 
   :focus-visible {
     @apply outline-2 outline-offset-2 outline-accent-ink;
+  }
+}
+
+@keyframes v-sheet-in {
+  from {
+    opacity: 0;
+    scale: 0.96;
+  }
+}
+
+@keyframes v-sheet-out {
+  to {
+    opacity: 0;
+    scale: 0.96;
+  }
+}
+
+@keyframes v-slide-in {
+  from {
+    translate: -100% 0;
+  }
+}
+
+@keyframes v-slide-out {
+  to {
+    translate: -100% 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-group(*) {
+    animation-duration: var(--motion-sheet);
+    animation-timing-function: var(--ease-enter);
+  }
+
+  ::view-transition-group(root) {
+    animation-duration: var(--motion-scrim);
+  }
+
+  ::view-transition-image-pair(sheet) {
+    overflow: clip;
+    border-radius: var(--radius-md);
+  }
+
+  ::view-transition-new(sheet):only-child {
+    transform-origin: 50% 75%;
+    animation: v-sheet-in var(--motion-sheet) var(--ease-enter);
+  }
+
+  ::view-transition-old(sheet):only-child {
+    transform-origin: 50% 75%;
+    animation: v-sheet-out var(--motion-quick) var(--ease-exit) both;
+  }
+
+  ::view-transition-new(sidebar):only-child,
+  ::view-transition-new(show-sidebar):only-child {
+    animation: v-slide-in var(--motion-sheet) var(--ease-enter);
+  }
+
+  ::view-transition-old(sidebar):only-child,
+  ::view-transition-old(show-sidebar):only-child {
+    animation: v-slide-out var(--motion-sheet) var(--ease-enter) both;
+  }
+
+  ::view-transition-group(logo) {
+    z-index: 1;
+  }
+
+  ::view-transition-old(board-title),
+  ::view-transition-new(board-title) {
+    inline-size: auto;
+  }
+
+  ::view-transition-image-pair(board) {
+    overflow: clip;
+  }
+
+  :root[data-motion="sidebar-hide"]::view-transition-old(board),
+  :root[data-motion="sidebar-show"]::view-transition-new(board) {
+    animation: none;
+    opacity: 0;
+  }
+
+  :root[data-motion="sidebar-hide"]::view-transition-new(board),
+  :root[data-motion="sidebar-show"]::view-transition-old(board) {
+    animation: none;
+    inline-size: auto;
   }
 }

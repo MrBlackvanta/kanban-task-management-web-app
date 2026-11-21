@@ -1,6 +1,7 @@
 "use client";
 
 import { HideSidebarIcon, ShowSidebarIcon } from "@/components/icons";
+import { transitionView } from "@/lib";
 import { setSidebarHidden } from "@/store";
 import NavPill from "./nav-pill";
 
@@ -8,8 +9,10 @@ const HIDE_ID = "hide-sidebar";
 const SHOW_ID = "show-sidebar";
 
 function toggleSidebar(hidden: boolean) {
-  setSidebarHidden(hidden);
-  document.getElementById(hidden ? SHOW_ID : HIDE_ID)?.focus();
+  transitionView(hidden ? "sidebar-hide" : "sidebar-show", () => {
+    setSidebarHidden(hidden);
+    document.getElementById(hidden ? SHOW_ID : HIDE_ID)?.focus();
+  });
 }
 
 export function HideSidebarButton() {
@@ -31,7 +34,7 @@ export function ShowSidebarButton() {
       id={SHOW_ID}
       aria-label="Show sidebar"
       onClick={() => toggleSidebar(false)}
-      className="fixed bottom-8 left-0 hidden h-12 w-14 items-center rounded-r-full bg-purple pl-4.5 text-white transition-[background-color] hover:bg-purple-hover md:sidebar-hidden:flex"
+      className="fixed bottom-8 left-0 hidden h-12 w-14 items-center rounded-r-full bg-purple pl-4.5 text-white transition-[background-color] hover:bg-purple-hover md:sidebar-hidden:flex motion-sidebar:[view-transition-name:show-sidebar]"
     >
       <ShowSidebarIcon />
     </button>
