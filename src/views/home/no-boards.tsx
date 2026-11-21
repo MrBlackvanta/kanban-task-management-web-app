@@ -14,7 +14,7 @@ export default function NoBoards() {
         onClick={() =>
           openDialog({ kind: "addBoard", returnFocusId: CREATE_FIRST_BOARD_ID })
         }
-        className="h-12 rounded-full bg-purple px-4.5 text-heading-m text-white transition-[background-color] hover:bg-purple-hover"
+        className="v-button-l"
       >
         <span aria-hidden="true">+ </span>Create New Board
       </button>

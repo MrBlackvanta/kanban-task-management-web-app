@@ -116,6 +116,10 @@
   }
 }
 
+@utility v-button-l {
+  @apply inline-flex h-12 items-center justify-center rounded-full bg-purple px-4.5 text-heading-m text-white transition-[background-color] hover:bg-purple-hover;
+}
+
 @utility v-popover-menu {
   inset: auto;
   margin: 0;

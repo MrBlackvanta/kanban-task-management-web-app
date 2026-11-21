@@ -12,7 +12,7 @@ export default function EmptyBoard() {
         id={ADD_COLUMN_ID}
         type="button"
         onClick={() => openDialog({ kind: "editBoard", addColumn: true })}
-        className="h-12 rounded-full bg-purple px-4.5 text-heading-m text-white transition-[background-color] hover:bg-purple-hover"
+        className="v-button-l"
       >
         <span aria-hidden="true">+ </span>Add New Column
       </button>
